@@ -1,3 +1,4 @@
+--test
 local consoleRem <const> = true -- enabled by default.
 local chatRem <const> = false -- disabled by default.
 local commandName <const> = 'tpm'
