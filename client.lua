@@ -8,7 +8,7 @@ local function teleportToWaypoint()
     local blipMarker <const> = GetFirstBlipInfoId(8)
     if DoesBlipExist(blipMarker) then
         local coords, found, zState = GetBlipInfoIdCoord(blipMarker), true, -1.0
-        local x, z, y = coords['x'], coords['y'], 1500.0
+        local x, y, z = coords['x'], coords['y'], 1500.0
         SetTimeout(5000, function() if found then found = false end end)
         while found do
             local groundFound, groundZ = GetGroundZFor_3dCoord(x + 0.0, y + 0.0, z + zState)
