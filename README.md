@@ -1,5 +1,5 @@
-# nep-citizen-tpm
-Citizen teleport-to-marker. No permissions required.
+# citizen-tpm
+Citizen teleport-to-marker.
 
 # License
     This is free and unencumbered software released into the public domain.
