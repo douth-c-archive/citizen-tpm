@@ -1,6 +1,3 @@
-# warning
-THIS DOES NOT WORK!
-
 # citizen-tpm
 Citizen teleport-to-marker.
 
