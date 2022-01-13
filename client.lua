@@ -2,12 +2,13 @@ local consoleRem <const> = true -- enabled by default.
 local chatRem <const> = false -- disabled by default.
 local commandName <const> = 'tpm'
 
+TriggerEvent('chat:addSuggestion', '/' .. commandName, "Teleport to your marked waypoint.")
+
 local function teleportToWaypoint()
     local blipMarker <const> = GetFirstBlipInfoId(8)
     if DoesBlipExist(blipMarker) then
         local coords, found, zState = GetBlipInfoIdCoord(blipMarker), true, -1.0
         local x, z, y = coords['x'], coords['y'], 1500.0
-
         SetTimeout(function() if found then found = false end end, 5000)
         while found do
             local groundFound, groundZ = GetGroundZFor_3dCoord(x + 0.0, y + 0.0, z + zState)
@@ -33,7 +34,7 @@ RegisterCommand(commandName, function()
         if chatRem then
             TriggerEvent('chat:addMessage', {
                 color = {255,85,85},
-                args = {"citizen-tpm", "could not find ground."}
+                args = {"citizen-tpm", "could not find ground at this waypoint."}
             })
         end
         if consoleRem then
@@ -41,7 +42,6 @@ RegisterCommand(commandName, function()
         end
         return
     end
-
     if chatRem then
         TriggerEvent('chat:addMessage', {
             color = {255,85,85},
@@ -52,5 +52,3 @@ RegisterCommand(commandName, function()
         print("client needs to set a waypoint first")
     end
 end)
-
-TriggerEvent('chat:addSuggestion', '/' .. commandName, "Teleport to your marked waypoint.")
