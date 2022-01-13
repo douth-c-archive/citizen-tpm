@@ -1,9 +1,9 @@
-fx_version 'cerulean'
-game 'gta5'
-lua54 'yes'
-use_fxv2_oal 'yes'
-
-version '1.5.0'
+version '2.0.0'
 author 'neptunium-dev'
 
 client_script 'client.lua'
+
+fx_version 'cerulean'
+use_fxv2_oal 'yes'
+lua54 'yes'
+game 'gta5'
