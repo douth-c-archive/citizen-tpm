@@ -94,13 +94,13 @@ local function teleportToWaypoint()
     end
 
     if not found then
-        -- If we can't find the coords, set the coords to the old ones. We don't unpack them before since they aren't in a loop and only called once.
+        -- If we can't find the coords, set the coords to the old ones.
+        -- We don't unpack them before since they aren't in a loop and only called once.
         SetPedCoordsKeepVehicle(ped, oldCoords['x'], oldCoords['y'], oldCoords['z'] - 1.0)
         return false
     end
 
     -- If Z coord was found, set coords in found coords.
-    RequestCollisionAtCoord(x, y, groundZ);
     SetPedCoordsKeepVehicle(ped, x, y, groundZ)
     return true
 end
