@@ -30,7 +30,7 @@ local function teleportToWaypoint()
         notify('client needs to set a waypoint first.')
         return 'marker'
     end
-    
+
     -- Fade screen to hide how clients get teleported.
     DoScreenFadeOut(650)
     while not IsScreenFadedOut() do
@@ -38,12 +38,17 @@ local function teleportToWaypoint()
     end
 
     local ped, coords <const> = PlayerPedId(), GetBlipInfoIdCoord(blipMarker)
+    local vehicle = GetVehiclePedIsIn(ped, false)
     local oldCoords <const> = GetEntityCoords(ped)
 
     -- Unpack coords instead of having to unpack them while iterating.
     local x, y, groundZ, Z_START = coords['x'], coords['y'], 850.0, 950.0
     local found = false
-    FreezeEntityPosition(ped, true)
+    if vehicle > 0 then
+        FreezeEntityPosition(vehicle, true)
+    else
+        FreezeEntityPosition(ped, true)
+    end
 
     for i = Z_START, 0, -25.0 do
         local z = i
@@ -60,7 +65,7 @@ local function teleportToWaypoint()
             Wait(0)
         end
         NewLoadSceneStop()
-        SetEntityCoords(ped, x, y, z, false, false, false, true)
+        SetPedCoordsKeepVehicle(ped, x, y, z)
 
         while not HasCollisionLoadedAroundEntity(ped) do
             RequestCollisionAtCoord(x, y, z);
@@ -69,11 +74,12 @@ local function teleportToWaypoint()
             end
             Wait(0)
         end
+
         -- Get ground coord. As mentioned in the natives, this only works if the client is in render distance.
         found, groundZ = GetGroundZFor_3dCoord(x, y, z, false);
         if found then
             Wait(0)
-            SetEntityCoords(ped, x, y, groundZ, false, false, false, true)
+            SetPedCoordsKeepVehicle(ped, x, y, groundZ)
             break
         end
         Wait(0)
@@ -81,17 +87,21 @@ local function teleportToWaypoint()
 
     -- Remove black screen once the loop has ended.
     DoScreenFadeIn(650);
+    if vehicle > 0 then
+        FreezeEntityPosition(vehicle, false)
+    else
+        FreezeEntityPosition(ped, false)
+    end
+
     if not found then
         -- If we can't find the coords, set the coords to the old ones. We don't unpack them before since they aren't in a loop and only called once.
-        SetEntityCoords(ped, oldCoords['x'], oldCoords['y'], oldCoords['z'] - 1.0, false, false, false, true)
-        FreezeEntityPosition(ped, false)
+        SetPedCoordsKeepVehicle(ped, oldCoords['x'], oldCoords['y'], oldCoords['z'] - 1.0)
         return false
     end
 
     -- If Z coord was found, set coords in found coords.
-    FreezeEntityPosition(ped, false)
     RequestCollisionAtCoord(x, y, groundZ);
-    SetEntityCoords(ped, x, y, groundZ, false, false, false, true)
+    SetPedCoordsKeepVehicle(ped, x, y, groundZ)
     return true
 end
 
