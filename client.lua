@@ -42,6 +42,7 @@ local function teleportToWaypoint()
     local oldCoords <const> = GetEntityCoords(ped)
 
     -- Unpack coords instead of having to unpack them while iterating.
+    -- 825.0 seems to be the max a player can reach while 0.0 being the lowest.
     local x, y, groundZ, Z_START = coords['x'], coords['y'], 850.0, 950.0
     local found = false
     if vehicle > 0 then
@@ -68,7 +69,7 @@ local function teleportToWaypoint()
         SetPedCoordsKeepVehicle(ped, x, y, z)
 
         while not HasCollisionLoadedAroundEntity(ped) do
-            RequestCollisionAtCoord(x, y, z);
+            RequestCollisionAtCoord(x, y, z)
             if GetGameTimer() - curTime > 1000 then
                 break
             end
@@ -86,7 +87,7 @@ local function teleportToWaypoint()
     end
 
     -- Remove black screen once the loop has ended.
-    DoScreenFadeIn(650);
+    DoScreenFadeIn(650)
     if vehicle > 0 then
         FreezeEntityPosition(vehicle, false)
     else
