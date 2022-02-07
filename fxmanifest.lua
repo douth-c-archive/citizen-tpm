@@ -1,5 +1,5 @@
 version '2.0.0'
-author 'neptunium-dev & Bombay'
+author 'douth-c & Bombay'
 
 client_script 'client.lua'
 
